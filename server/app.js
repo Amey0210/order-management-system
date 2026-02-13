@@ -24,6 +24,9 @@ app.get('/api/menu', getMenu);
  */
 app.post('/api/orders', validateOrder, createOrder);
 app.get('/api/orders/:id', getOrderStatus);
+app.get('/', (req, res) => {
+  res.send('FlashFeast API is running live!');
+});
 
 // Global Error Handler
 app.use((err, req, res, next) => {
