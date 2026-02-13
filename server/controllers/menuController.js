@@ -1,4 +1,4 @@
-import { Menu } from '../models/menu.js'; // Ensure the M is capitalized if your file is Menu.js
+import Menu from '../models/Menu.js';
 
 // Fetch all menu items
 export const getMenu = async (req, res) => {
@@ -25,7 +25,7 @@ export const seedMenu = async (req, res) => {
       },
       { 
         name: "Classic Cheeseburger", 
-        description: "Juicy beef patty topped with melted cheddar, lettuce, and onions.", 
+        description: "Juicy patty topped with melted cheddar, lettuce, and onions.", 
         price: 189, 
         image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop" 
       },

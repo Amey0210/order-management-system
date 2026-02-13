@@ -6,28 +6,32 @@ import { validateOrder } from './middleware/Validate.js';
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Middleware - Standardizing CORS for deployment
+app.use(cors({ 
+  origin: process.env.CLIENT_URL || "*",
+  methods: ["GET", "POST"] 
+}));
 app.use(express.json());
 
 /**
  * Menu Routes
  */
-// Changed to GET so you can seed by visiting the URL in your browser
 app.get('/api/menu/seed', seedMenu); 
 app.get('/api/menu', getMenu);
 
 /**
  * Order Routes
  */
-// Removed the duplicate 'Basic route' to ensure validateOrder middleware runs
 app.post('/api/orders', validateOrder, createOrder);
 app.get('/api/orders/:id', getOrderStatus);
 
-// Global Error Handler (A Senior Developer touch)
+// Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong on the server!' });
+  res.status(500).json({ 
+    message: 'Something went wrong on the server!',
+    error: process.env.NODE_ENV === 'development' ? err.message : {} 
+  });
 });
 
 export default app;
