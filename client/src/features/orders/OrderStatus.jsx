@@ -12,40 +12,42 @@ const OrderStatus = () => {
 
   useEffect(() => {
   const isProduction = window.location.hostname !== 'localhost';
-  
-  // Use Render in production, Localhost in development
   const socketUrl = isProduction 
     ? 'https://order-management-system-zjhg.onrender.com' 
     : 'http://localhost:5000';
 
   const fetchOrder = async () => {
     try {
+      setLoading(true); // Ensure loading starts
       const res = await getOrderStatus(orderId);
-      setOrder(res.data);
-
+      if (res.data) {
+        setOrder(res.data);
+      }
     } catch (err) {
-      console.error("API Fetch Error:", err);
-
+      console.error("❌ API Fetch Error:", err);
+      // Optional: Redirect to home if order doesn't exist
     } finally {
-      setLoading(false);
+      setLoading(false); // CRITICAL: This removes the loading screen
     }
   };
   
-  fetchOrder();
+  if (orderId) {
+    fetchOrder();
+  }
 
-  const socket = io('https://order-management-system-zjhg.onrender.com', {
-    transports: ['polling', 'websocket'], // Polling is the secret to passing Vercel's firewall
-    withCredentials: true,
-    autoConnect: true,
-    forceNew: true
+  const socket = io(socketUrl, {
+    transports: ['polling', 'websocket'],
+    withCredentials: true
   });
 
   socket.on('connect', () => {
-    console.log("Connected to:", socketUrl);
-    socket.emit('joinOrder', orderId);
+    const roomId = String(orderId).trim();
+    console.log("✅ Socket Connected. Joining Room:", roomId);
+    socket.emit('joinOrder', roomId);
   });
 
   socket.on('statusUpdate', (updatedOrder) => {
+    console.log("📦 Status Update Received:", updatedOrder.status);
     setOrder(updatedOrder);
   });
 
