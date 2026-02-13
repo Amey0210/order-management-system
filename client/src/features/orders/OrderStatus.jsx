@@ -11,31 +11,44 @@ const OrderStatus = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Fetch initial status from API
-    const fetchOrder = async () => {
-      try {
-        const res = await getOrderStatus(orderId);
-        setOrder(res.data);
-      } catch (err) {
-        console.error("Error fetching order details:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchOrder();
+  const isProduction = window.location.hostname !== 'localhost';
+  
+  // Use Render in production, Localhost in development
+  const socketUrl = isProduction 
+    ? 'https://order-management-system-zjhg.onrender.com' 
+    : 'http://localhost:5000';
 
-    // 2. Real-time updates via Socket.io
-    const socket = io('http://localhost:5000');
+  const fetchOrder = async () => {
+    try {
+      const res = await getOrderStatus(orderId);
+      setOrder(res.data);
+
+    } catch (err) {
+      console.error("API Fetch Error:", err);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  fetchOrder();
+
+  const socket = io(socketUrl, {
+    transports: ['polling', 'websocket'], // Polling first is safer for Vercel
+    withCredentials: true
+  });
+
+  socket.on('connect', () => {
+    console.log("Connected to:", socketUrl);
     socket.emit('joinOrder', orderId);
+  });
 
-    socket.on('statusUpdate', (updatedOrder) => {
-      setOrder(updatedOrder);
-    });
+  socket.on('statusUpdate', (updatedOrder) => {
+    setOrder(updatedOrder);
+  });
 
-    // Cleanup socket on unmount
-    return () => socket.disconnect();
-  }, [orderId]);
+  return () => socket.disconnect();
+}, [orderId]);
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-screen">

@@ -168,7 +168,7 @@ const CheckoutForm = ({ onOrderSuccess }) => {
             <Phone className="absolute left-3 top-3.5 text-gray-400" size={18} />
             <input
               type="tel"
-              placeholder="Phone (e.g. 9876543210)"
+              placeholder="Phone (e.g. 8888888888)"
               required
               pattern="[0-9]{10,}"
               className="w-full pl-10 p-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:bg-white outline-none transition-all text-sm"
