@@ -73,7 +73,7 @@ PORT=5000
 
 #### Backend: `npm start`
 
-#### Frontend: `npm run dev1
+#### Frontend: `npm run dev`
 
 ---
 
@@ -87,8 +87,8 @@ PORT=5000
 
 ## Development Insights
 
-- Challenge: Managing "Cold Starts" on free-tier hosting (Render) which can delay initial WebSocket handshakes.
+- **Challenge:** Managing "Cold Starts" on free-tier hosting (Render) which can delay initial WebSocket handshakes.
 
-- Solution: Implemented a backend-readiness check in the frontend to ensure the socket connection only initiates once the server instance is fully active.
+- **Solution:** Implemented a backend-readiness check in the frontend to ensure the socket connection only initiates once the server instance is fully active.
 
-- AI Collaboration: Utilized AI tools for generating robust data validation schemas and troubleshooting cross-origin (CORS) security policies during the production deployment phase.
+- **AI Collaboration:** Utilized AI tools for generating robust data validation schemas and troubleshooting cross-origin (CORS) security policies during the production deployment phase.
