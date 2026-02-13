@@ -47,7 +47,7 @@ A full stack, event-driven application providing users with live order tracking 
 ## Installation and Setup
 
 
-### 1. Clone the repository:**
+### 1. Clone the repository:
    ```bash
    git clone [https://github.com/Amey0210/order-management-system.git](https://github.com/Amey0210/order-management-system.git)
    ```
