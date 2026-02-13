@@ -33,9 +33,11 @@ const OrderStatus = () => {
   
   fetchOrder();
 
-  const socket = io(socketUrl, {
-    transports: ['polling', 'websocket'], // Polling first is safer for Vercel
-    withCredentials: true
+  const socket = io('https://order-management-system-zjhg.onrender.com', {
+    transports: ['polling', 'websocket'], // Polling is the secret to passing Vercel's firewall
+    withCredentials: true,
+    autoConnect: true,
+    forceNew: true
   });
 
   socket.on('connect', () => {

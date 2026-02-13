@@ -8,8 +8,8 @@ const simulateStatusUpdates = (orderId, io) => {
     setTimeout(async () => {
       try {
         const updatedOrder = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
-        if (updatedOrder) {
-          io.to(orderId.toString()).emit('statusUpdate', updatedOrder);
+        if (updatedOrder) {io.to
+          io.to(String(orderId).trim()).emit('statusUpdate', updatedOrder);
           console.log(`Order ${orderId} status: ${status}`);
         }
       } catch (err) {
