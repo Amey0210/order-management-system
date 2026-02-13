@@ -13,8 +13,13 @@ const server = http.createServer(app);
 // Initialize Socket.io with production-ready CORS
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "*", 
-    methods: ["GET", "POST"]
+    origin: [
+      process.env.CLIENT_URL, 
+      "https://order-management-system-navy-six.vercel.app", 
+      "http://localhost:5173"
+    ].filter(Boolean), // Filters out undefined if CLIENT_URL isn't set
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
@@ -25,8 +30,10 @@ io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
   
   socket.on('joinOrder', (orderId) => {
-    socket.join(orderId);
-    console.log(`User joined room: ${orderId}`);
+    // Ensure orderId is treated as a string for room consistency
+    const roomId = String(orderId);
+    socket.join(roomId);
+    console.log(`User joined room: ${roomId}`);
   });
 
   socket.on('disconnect', () => {
