@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware - Standardizing CORS for deployment
 app.use(cors({ 
-  origin: process.env.CLIENT_URL || "*",
+  origin: process.env.CLIENT_URL || "https://order-management-system-navy-six.vercel.app",
   methods: ["GET", "POST"] 
 }));
 app.use(express.json());
