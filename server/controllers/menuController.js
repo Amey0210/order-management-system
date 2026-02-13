@@ -1,4 +1,4 @@
-import Menu from '../models/Menu.js';
+import { Menu } from '../models/Menu.js';
 
 // Fetch all menu items
 export const getMenu = async (req, res) => {
