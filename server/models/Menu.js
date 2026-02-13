@@ -4,8 +4,9 @@ const menuSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
-  image: { type: String, required: true }, // URL to the image
+  image: { type: String, required: true }, 
   category: { type: String }
 });
 
-export const Menu = mongoose.model('Menu', menuSchema);
+const Menu = mongoose.model('Menu', menuSchema);
+export default Menu; // Changed from named to default export

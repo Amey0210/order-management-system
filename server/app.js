@@ -6,35 +6,26 @@ import { validateOrder } from './middleware/Validate.js';
 
 const app = express();
 
-// Middleware - Standardizing CORS for deployment
 app.use(cors({ 
-  origin: process.env.CLIENT_URL || "https://order-management-system-navy-six.vercel.app",
+  // This allows your Vercel URL AND localhost for testing
+  origin: [process.env.CLIENT_URL, "https://order-management-system-navy-six.vercel.app", "http://localhost:5173"].filter(Boolean),
   methods: ["GET", "POST"] 
 }));
+
 app.use(express.json());
 
-/**
- * Menu Routes
- */
 app.get('/api/menu/seed', seedMenu); 
 app.get('/api/menu', getMenu);
-
-/**
- * Order Routes
- */
 app.post('/api/orders', validateOrder, createOrder);
 app.get('/api/orders/:id', getOrderStatus);
+
 app.get('/', (req, res) => {
   res.send('FlashFeast API is running live!');
 });
 
-// Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
-    message: 'Something went wrong on the server!',
-    error: process.env.NODE_ENV === 'development' ? err.message : {} 
-  });
+  res.status(500).json({ message: 'Something went wrong on the server!' });
 });
 
 export default app;
