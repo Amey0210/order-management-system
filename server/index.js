@@ -27,7 +27,7 @@ const io = new Server(server, {
 app.set('socketio', io);
 
 io.on('connection', (socket) => {
-  console.log('✅ A user connected:', socket.id);
+  console.log('A user connected:', socket.id);
   
   socket.on('joinOrder', (orderId) => {
     if (!orderId) return;
@@ -36,18 +36,18 @@ io.on('connection', (socket) => {
     const roomId = String(orderId).trim();
     socket.join(roomId);
     
-    console.log(`📡 User ${socket.id} joined room: ${roomId}`);
+    console.log(`User ${socket.id} joined room: ${roomId}`);
   });
 
   socket.on('disconnect', () => {
-    console.log('❌ User disconnected');
+    console.log('User disconnected');
   });
 });
 
 // Connect to Database then start listening
 connectDB().then(() => {
   server.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 }).catch(err => {
   console.error("Critical: Failed to connect to DB", err);

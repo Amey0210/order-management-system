@@ -2,7 +2,7 @@ import {Order} from '../models/Order.js';
 
 const simulateStatusUpdates = (orderId, io) => {
   if (!io) {
-    console.error("❌ Socket.io instance not found in controller!");
+    console.error("Socket.io instance not found in controller!");
     return;
   }
 
@@ -13,7 +13,7 @@ const simulateStatusUpdates = (orderId, io) => {
     // We set intervals of 10s, 20s, and 30s
     setTimeout(async () => {
       try {
-        console.log(`🔄 [Simulation] Updating Order ${roomId} to: ${status}`);
+        console.log(`[Simulation] Updating Order ${roomId} to: ${status}`);
         
         const updatedOrder = await Order.findByIdAndUpdate(
           orderId, 
@@ -24,12 +24,12 @@ const simulateStatusUpdates = (orderId, io) => {
         if (updatedOrder) {
           // Emit to the specific order room
           io.to(roomId).emit('statusUpdate', updatedOrder);
-          console.log(`✅ [Simulation] Success: Order ${roomId} is now ${status}`);
+          console.log(`[Simulation] Success: Order ${roomId} is now ${status}`);
         } else {
-          console.warn(`⚠️ [Simulation] Order ${roomId} not found in DB.`);
+          console.warn(`[Simulation] Order ${roomId} not found in DB.`);
         }
       } catch (err) {
-        console.error("❌ [Simulation] Error during update:", err);
+        console.error("[Simulation] Error during update:", err);
       }
     }, (index + 1) * 10000); 
   });
@@ -43,14 +43,14 @@ export const createOrder = async (req, res) => {
     const newOrder = new Order(req.body);
     await newOrder.save();
     
-    console.log(`📦 Order Created: ${newOrder._id}`);
+    console.log(`Order Created: ${newOrder._id}`);
 
     // Trigger the 30-second simulation
     simulateStatusUpdates(newOrder._id, io);
     
     res.status(201).json(newOrder);
   } catch (error) {
-    console.error("❌ Create Order Error:", error.message);
+    console.error("Create Order Error:", error.message);
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };

@@ -3,7 +3,6 @@ import axios from 'axios';
 // 1. Get the URL from environment variables
 const envURL = import.meta.env.VITE_API_URL;
 
-// 2. SAFETY NET: If we are on Vercel but the env variable is missing, hardcode the Render URL
 const isProduction = window.location.hostname !== 'localhost';
 const fallbackURL = isProduction 
   ? 'https://order-management-system-zjhg.onrender.com' 

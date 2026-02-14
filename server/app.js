@@ -7,7 +7,7 @@ import { validateOrder } from './middleware/Validate.js';
 const app = express();
 
 app.use(cors({ 
-  // This allows your Vercel URL AND localhost for testing
+  // This allows Vercel URL AND localhost for testing
   origin: [process.env.CLIENT_URL, "https://order-management-system-navy-six.vercel.app", "http://localhost:5173"].filter(Boolean),
   methods: ["GET", "POST"] 
 }));

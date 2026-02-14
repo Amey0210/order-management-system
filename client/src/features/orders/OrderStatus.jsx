@@ -24,7 +24,7 @@ const OrderStatus = () => {
         setOrder(res.data);
       }
     } catch (err) {
-      console.error("❌ API Fetch Error:", err);
+      console.error("API Fetch Error:", err);
       // Optional: Redirect to home if order doesn't exist
     } finally {
       setLoading(false); // CRITICAL: This removes the loading screen
